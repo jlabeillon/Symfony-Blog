@@ -1,0 +1,52 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Users list</h1>
+
+    {% include 'default/partials/flash.html.twig' %}
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Rôle</th>
+                <th>Email</th>
+                <th>Isactive</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in users %}
+            <tr>
+                <td><a href="{{ path('user_show', { 'id': user.id }) }}">{{ user.id }}</a></td>
+                <td>{{ user.username }}</td>
+                <td>{{ user.role|label('info') }}</td>
+                <td>{{ user.email }}</td>
+                <td>{% if user.isActive %}Yes{% else %}No{% endif %}</td>
+
+            <!--
+                <td>
+                    <img src="{{ user.isActive }}" alt="" width="60">
+                </td> -->
+                <td>
+                    <ul class="list-inline">
+                        <li>
+                            <a href="{{ path('user_show', { 'id': user.id }) }}" class="btn btn-success btn-xs">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('user_edit', { 'id': user.id }) }}" class="btn btn-info btn-xs">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul class="list-unstyled">
+        <li>
+            <a href="{{ path('user_new') }}" class="btn btn-primary">Create a new user</a>
+        </li>
+    </ul>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Posts list</h1>
+
+    {% include 'default/partials/flash.html.twig' %}
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Summary</th>
+                <th>Content</th>
+                <th>Image</th>
+                <th>Isactive</th>
+                <th>Createdat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for post in posts %}
+            <tr>
+                <td><a href="{{ path('post_show', { 'slug': post.slug }) }}">{{ post.id }}</a></td>
+                <td>{{ post.title }}</td>
+                <td>{{ post.summary }}</td>
+                <td>{{ post.content }}</td>
+                <td>{% if post.image %}
+                    <img src="{{ asset('/uploads/' ~ post.image) | imagine_filter('list_thumb') }}" />
+                {% endif %}</td>
+                <td>{% if post.isActive %}Yes{% else %}No{% endif %}</td>
+
+            <!--
+                <td>
+                    <img src="{{ post.isActive }}" alt="" width="60">
+                </td> -->
+                <td>{% if post.createdAt %}{{ post.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul class="list-inline">
+                        <li>
+                            <a href="{{ path('post_show', { 'slug': post.slug }) }}" class="btn btn-success btn-xs">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('post_edit', { 'id': post.id }) }}" class="btn btn-info btn-xs">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul class="list-unstyled">
+        <li>
+            <a href="{{ path('post_new') }}" class="btn btn-primary">Create a new post</a>
+        </li>
+    </ul>
+{% endblock %}

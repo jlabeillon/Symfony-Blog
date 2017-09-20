@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Post</h1>
+
+    <table class="table table-list">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ post.id }}</td>
+            </tr>
+            <tr>
+                <th>Title</th>
+                <td>{{ post.title }}</td>
+            </tr>
+            <tr>
+                <th>Summary</th>
+                <td>{{ post.summary }}</td>
+            </tr>
+            <tr>
+                <th>Content</th>
+                <td>{{ post.content }}</td>
+            </tr>
+            <tr>
+                <th>Imageurl</th>
+                <td>{{ post.imageUrl }}</td>
+            </tr>
+            <tr>
+                <th>PDF</th>
+                <td><a href="{{ asset('uploads/' ~ post.pdf) }}">Télécharger le fichier</a></td>
+            </tr>
+            <tr>
+                <th>Isactive</th>
+                <td>{% if post.isActive %}Yes{% else %}No{% endif %}</td>
+            </tr>
+            <tr>
+                <th>Createdat</th>
+                <td>{% if post.createdAt %}{{ post.createdAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ul class="list-inline">
+        <li>
+            <a href="{{ path('post_index') }}" class="btn btn-primary">Back to the list</a>
+        </li>
+        <li>
+            <a href="{{ path('post_edit', { 'id': post.id }) }}" class="btn btn-info">Edit</a>
+        </li>
+        <li>
+            {{ form_start(delete_form) }}
+                <input type="submit" value="Delete" class="btn btn-danger" onclick="return confirm('Supprimer ?')">
+            {{ form_end(delete_form) }}
+        </li>
+    </ul>
+{% endblock %}

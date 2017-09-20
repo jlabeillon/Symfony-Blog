@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Comment creation</h1>
+
+    {{ form_start(form) }}
+
+        {{ form_row(form.username) }}
+        {{ form_row(form.post) }}
+        {{ form_row(form.content, {'help': 'Lorem ipsum dolor...'}) }}
+        {{ form_row(form.publishedAt) }}
+        {{ form_row(form.autorize) }}
+
+        <input type="submit" value="Create" />
+
+    {{ form_end(form) }}
+
+    <ul class="list-inline">
+        <li>
+            <a href="{{ path('comment_index') }}" class="btn btn-primary">Back to the list</a>
+        </li>
+    </ul>
+{% endblock %}

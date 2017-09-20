@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8" />
+		<title>{% block title %}{{ site_title }}{% endblock %}</title>
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+		{% block stylesheets %}{% endblock %}
+		<link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+		<style media="screen">
+			html {
+				overflow-y: scroll;
+			}
+			body {
+				margin-top: 1em;
+			}
+			.nav-tabs li span {
+				display: inline-block;
+				margin-right: 10px;
+				margin-top: 14px;
+			}
+		</style>
+	</head>
+	<body>
+		{# définition d'une variable dans le Twig #}
+		{% set route = app.request.attributes.get('_route') %}
+		<div class="container">
+			<ul class="nav nav-tabs">
+			  <li {% if route == 'homepage' %}class="active"{% endif %}>
+				<a href="{{ path('homepage') }}">Tableau de bord</a>
+			  </li>
+			  <li {% if route starts with 'post' %}class="active"{% endif %}>
+				<a href="{{ path('post_index') }}">Posts</a>
+			  </li>
+			  <li {% if route starts with 'author' %}class="active"{% endif %}>
+				<a href="{{ path('author_index') }}">Auteurs</a>
+			  </li>
+			  <li {% if route starts with 'comment' %}class="active"{% endif %}>
+				<a href="{{ path('comment_index') }}">Commentaires</a>
+			  </li>
+			  <li {% if route starts with 'user' %}class="active"{% endif %}>
+				<a href="{{ path('user_index') }}">Utilisateurs</a>
+			  </li>
+
+			<!-- Si connecté -->
+			{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+				<li><a href="{{ path('logout') }}">Déconnexion</a></li>
+				<li>{{ app.user.username|label('default') }}</li>
+				<li><span class="label label-info">{{ app.user.role == 'ROLE_ADMIN' ? 'Administrateur' : 'Utilisateur' }}</span></li>
+			{% else %}
+			<!-- Si pas connecté -->
+			    <li {% if route == 'login' %}class="active"{% endif %}><a href="{{ path('login') }}">Connexion</a></li>
+				<li><span class="label label-info">Visiteur</span></li>
+			{% endif %}
+
+			</ul>
+		</div>
+
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12">
+
+				{% block body %}{% endblock %}
+
+				</div>
+			</div>
+		</div>
+		{% block javascripts %}{% endblock %}
+	</body>
+</html>

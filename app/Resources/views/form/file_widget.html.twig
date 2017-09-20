@@ -1,0 +1,19 @@
+{% block file_widget %}
+    {% spaceless %}
+
+    {{ block('form_widget') }}
+
+    {% if form.vars.data is not null and form.vars.data.filename is not null %}
+
+        {% if form.vars.data.filename matches '/(\.(jpg|jpeg|png|gif))$/' %}
+        <img src="{{ asset('/uploads/' ~ form.vars.data.filename) | imagine_filter('edit_thumb') }}"/>
+        {% endif %}
+
+        <p><a href="{{ asset('uploads/' ~ form.vars.data.filename) }}" target="_blank">
+            Ouvrir le fichier
+        </a>({{ form.vars.data.filename }})</p>
+
+    {% endif %}
+
+    {% endspaceless %}
+{% endblock %}

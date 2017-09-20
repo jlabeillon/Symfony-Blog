@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Authors list</h1>
+
+    {% include 'default/partials/flash.html.twig' %}
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for author in authors %}
+            <tr>
+                <td><a href="{{ path('author_show', { 'id': author.id }) }}">{{ author.id }}</a></td>
+                <td>{{ author.name }}</td>
+                <td>
+                    <ul class="list-inline">
+                        <li>
+                            <a href="{{ path('author_show', { 'id': author.id }) }}" class="btn btn-success btn-xs">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('author_edit', { 'id': author.id }) }}" class="btn btn-info btn-xs">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul class="list-unstyled">
+        <li>
+            <a href="{{ path('author_new') }}" class="btn btn-primary">Create a new author</a>
+        </li>
+    </ul>
+{% endblock %}

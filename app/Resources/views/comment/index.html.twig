@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Comments list</h1>
+
+    {% include 'default/partials/flash.html.twig' %}
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Username</th>
+                <th>Content</th>
+                <th>Publishedat</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for comment in comments %}
+            <tr>
+                <td><a href="{{ path('comment_show', { 'id': comment.id }) }}">{{ comment.id }}</a></td>
+                <td>{{ comment.username }}</td>
+                <td>{{ comment.content }}</td>
+                <td>{% if comment.publishedAt %}{{ comment.publishedAt|date('Y-m-d H:i:s') }}{% endif %}</td>
+                <td>
+                    <ul class="list-inline">
+                        <li>
+                            <a href="{{ path('comment_show', { 'id': comment.id }) }}" class="btn btn-success btn-xs">show</a>
+                        </li>
+                        <li>
+                            <a href="{{ path('comment_edit', { 'id': comment.id }) }}" class="btn btn-info btn-xs">edit</a>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <ul class="list-unstyled">
+        <li>
+            <a href="{{ path('comment_new') }}" class="btn btn-primary">Create a new comment</a>
+        </li>
+    </ul>
+{% endblock %}
